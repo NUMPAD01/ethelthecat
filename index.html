@@ -16,6 +16,7 @@
     body{
       font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--cream); background:var(--ink); overflow-x:hidden;
+      scroll-behavior:smooth;
     }
 
     /* ===== HERO + background qui bouge ===== */
@@ -26,7 +27,7 @@
     }
     .bg{
       position:absolute; inset:-10% -10%; z-index:-2;
-      /* <<< SI TON FOND EST LOCAL, GARDE ./cat-bg.png ; sinon mets ton URL >>> */
+      /* <<< mets ton image de fond ici si besoin >>> */
       background-image:url("./cat-bg.png");
       background-size:cover; background-position:center;
       filter:saturate(1.05) contrast(1.02);
@@ -39,11 +40,7 @@
         linear-gradient(to bottom, rgba(25,33,48,.35), rgba(25,33,48,.65));
       z-index:1;
     }
-    @keyframes drift{
-      0%{transform:translate3d(0,0,0) scale(1.06)}
-      50%{transform:translate3d(-2.5%,-2.5%,0) scale(1.09)}
-      100%{transform:translate3d(0,0,0) scale(1.06)}
-    }
+    @keyframes drift{0%{transform:translate3d(0,0,0) scale(1.06)}50%{transform:translate3d(-2.5%,-2.5%,0) scale(1.09)}100%{transform:translate3d(0,0,0) scale(1.06)}}
     .bubbles{
       position:absolute; inset:0; z-index:-1; pointer-events:none;
       background:
@@ -56,7 +53,9 @@
     @keyframes floaty{from{transform:translateY(0)}to{transform:translateY(-24px)}}
 
     /* ===== Top-right buttons ===== */
-    .topbar{position:fixed; top:14px; right:14px; display:flex; align-items:center; gap:10px; z-index:10}
+    .topbar{
+      position:fixed; top:14px; right:14px; display:flex; align-items:center; gap:10px; z-index:10
+    }
     .icon-btn{
       height:40px; width:40px; border-radius:12px; background:rgba(255,255,255,.14);
       backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,.22);
@@ -77,6 +76,12 @@
     .buy-btn:hover{ transform:translateY(-2px); filter:brightness(1.05); box-shadow:0 10px 28px rgba(111,177,255,.45) }
     .buy-btn img{ height:18px; width:18px; display:block }
 
+    .top-link{
+      height:40px; padding:0 12px; border-radius:12px; display:flex; align-items:center;
+      background:rgba(255,255,255,.14); color:#fff; text-decoration:none; font-weight:700; border:1px solid rgba(255,255,255,.22);
+    }
+    .top-link:hover{ background:rgba(255,255,255,.22) }
+
     /* ===== Left content ===== */
     .content{ grid-column:2; max-width:720px }
     .logo{ font-size:clamp(36px,7vw,96px); line-height:1; font-weight:800;
@@ -86,12 +91,42 @@
     .blurb{ font-size:clamp(16px,2.2vw,20px); line-height:1.7; color:#F2F6FF; max-width:52ch;
             text-shadow:0 2px 8px rgba(0,0,0,.35); margin:14px 0 0 0; }
 
+    /* ===== HOW TO BUY ===== */
+    #howto{
+      position:relative; padding:80px 20px; background:linear-gradient(180deg, rgba(25,33,48,0.0), rgba(25,33,48,0.55));
+    }
+    .howto-wrap{
+      max-width:1100px; margin:0 auto; display:grid; gap:28px;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+    }
+    .howto-title{
+      grid-column:1/-1; font-size:clamp(28px,4.5vw,48px); font-weight:800; margin:0 0 6px;
+      letter-spacing:.4px;
+    }
+    .howto-sub{ grid-column:1/-1; color:#E9F1FF; opacity:.9; margin:0 0 10px }
+    .step{
+      display:flex; gap:14px; padding:16px; border-radius:16px; background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .step svg{ flex:0 0 28px }
+    .step h4{ margin:2px 0 6px; font-size:18px }
+    .step p{ margin:0; color:#E9F1FF; opacity:.9; line-height:1.6 }
+
+    .cta-row{
+      grid-column:1/-1; display:flex; flex-wrap:wrap; gap:10px; margin-top:8px
+    }
+    .cta{ display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px;
+          font-weight:800; text-decoration:none; border:1px solid rgba(255,255,255,.18) }
+    .cta-primary{ background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#0d1220 }
+    .cta-ghost{ background:rgba(255,255,255,.12); color:#fff }
+
     @media (max-width:880px){
-      .topbar{ gap:8px; top:10px; right:10px }
+      .topbar{ gap:8px; top:10px; right:10px; flex-wrap:wrap }
       .icon-btn{ height:36px; width:36px; border-radius:10px }
       .buy-btn{ height:36px; padding:0 12px }
       .buy-btn img{ height:16px; width:16px }
       .blurb{ max-width:unset }
+      .howto-wrap{ grid-template-columns:1fr }
     }
   </style>
 </head>
@@ -103,7 +138,7 @@
   <!-- Top-right controls -->
   <div class="topbar">
     <!-- IP.world (icône intégrée) -->
-    <a class="icon-btn" href="https://dexscreener.com/story/0x1d7ea622382d91f9b4aa93e733527bbac6751f77" target="_blank" aria-label="IP.world">
+    <a class="icon-btn" href="https://ip.world/token/0x786a3fe58996197077967d74a8aF8f9Aa4586827" target="_blank" aria-label="IP.world">
       <img alt="IP.world" src="data:image/png;base64,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" />
     </a>
 
@@ -111,12 +146,15 @@
     <a class="icon-btn" href="https://x.com/ethelonstory" target="_blank" aria-label="X">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m4 4 16 16M20 4 4 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </a>
-    
-    <!-- BUY ETHEL (icône intégrée à gauche) -->
+
+    <!-- BUY ETHEL -->
     <a class="buy-btn" href="https://ip.world/token/0x786a3fe58996197077967d74a8aF8f9Aa4586827" target="_blank" rel="noopener">
       <img alt="" src="data:image/png;base64,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" />
       BUY ETHEL
     </a>
+
+    <!-- Lien direct vers la section How To Buy -->
+    <a class="top-link" href="#howto">HOW TO BUY</a>
   </div>
 
   <!-- Hero content -->
@@ -128,8 +166,71 @@
         Rules? We don’t follow them. Trends? We make them.<br/>
         Whales envy the chill, fish envy the drip—everyone just wishes they were Ethel.
         We are the current. The wave. The vibe. <strong>I am $ETHEL.</strong>
-        <br/><br/><strong>CA: 0x786a3fe58996197077967d74a8af8f9aa4586827</strong>
+        <br/><br/><strong>CA: <span id="caText">0x786a3fe58996197077967d74a8af8f9aa4586827</span></strong>
       </p>
+    </div>
+  </section>
+
+  <!-- HOW TO BUY -->
+  <section id="howto">
+    <div class="howto-wrap">
+      <h2 class="howto-title">How to buy</h2>
+      <p class="howto-sub">4 étapes simples pour rejoindre la vibe $ETHEL.</p>
+
+      <!-- Step 1 -->
+      <div class="step">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="white" opacity=".7" stroke-width="1.8"/>
+          <path d="M8 12.5l2.5 2.5L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <h4>1) Crée un wallet</h4>
+          <p>Télécharge <strong>MetaMask</strong> (desktop/mobile) ou un wallet équivalent. Sauvegarde ta seed phrase.</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="3" stroke="white" opacity=".7" stroke-width="1.8"/>
+          <path d="M3 10h18" stroke="white" stroke-width="1.8"/>
+        </svg>
+        <div>
+          <h4>2) Approvisionne en ETH</h4>
+          <p>Achète de l’<strong>ETH</strong> via le wallet ou un exchange, puis envoie-le à ton adresse (réseau Ethereum).</p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="white" opacity=".7" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h4>3) Ouvre le DEX & colle le CA</h4>
+          <p>Ouvre le DEX, sélectionne <strong>ETH → $ETHEL</strong>, puis colle l’adresse du contrat (ci-dessous).</p>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28" aria-hidden="true">
+          <path d="M5 12l4 4L19 6" stroke="white" opacity=".9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <h4>4) Ajuste le slippage & swap</h4>
+          <p>Si le swap échoue, augmente légèrement le <strong>slippage</strong> (ex : 1–3%) puis confirme la transaction.</p>
+        </div>
+      </div>
+
+      <!-- CTA row -->
+      <div class="cta-row">
+        <a class="cta cta-primary" id="openDex" href="DEX_LINK_HERE" target="_blank" rel="noopener">
+          Open DEX
+        </a>
+        <a class="cta cta-ghost" href="#" id="copyCA">Copy CA</a>
+        <a class="cta cta-ghost" href="#top">Back to top</a>
+      </div>
     </div>
   </section>
 
@@ -141,41 +242,17 @@
       bg.style.transform=`translate3d(${sx}px, ${sy}px, 0) scale(1.08)`; requestAnimationFrame(anim) })();
     addEventListener('mousemove',e=>{const x=e.clientX/innerWidth-0.5,y=e.clientY/innerHeight-0.5;tx=-x*18;ty=-y*18},{passive:true});
     addEventListener('deviceorientation',e=>{ if(!e.gamma&&!e.beta) return; tx=(e.gamma||0)*0.6; ty=(e.beta||0)*0.4 },{passive:true});
-  </script>
-</body>
-</html>
 
-    </a>
-
-    <!-- BUY ETHEL (icône intégrée à gauche) -->
-    <a class="buy-btn" href="https://ip.world/token/0x786a3fe58996197077967d74a8aF8f9Aa4586827" target="_blank" rel="noopener">
-      <img alt="" src="data:image/png;base64,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" />
-      BUY ETHEL
-    </a>
-  </div>
-
-  <!-- Hero content -->
-  <section class="hero">
-    <div class="content">
-      <span class="tag">The cat who couldn’t care less</span>
-      <h1 class="logo">$ETHEL</h1>
-      <p class="blurb">
-        Rules? We don’t follow them. Trends? We make them.<br/>
-        Whales envy the chill, fish envy the drip—everyone just wishes they were Ethel.
-        We are the current. The wave. The vibe. <strong>I am $ETHEL.</strong>
-        <br/><br/><strong>CA: 0x786a3fe58996197077967d74a8af8f9aa4586827</strong>
-      </p>
-    </div>
-  </section>
-
-  <script>
-    // Parallax doux (souris/gyro)
-    const bg=document.querySelector('.bg'); let sx=0,sy=0,tx=0,ty=0;
-    const lerp=(a,b,t)=>a+(b-a)*t;
-    (function anim(){ sx=lerp(sx,tx,0.06); sy=lerp(sy,ty,0.06);
-      bg.style.transform=`translate3d(${sx}px, ${sy}px, 0) scale(1.08)`; requestAnimationFrame(anim) })();
-    addEventListener('mousemove',e=>{const x=e.clientX/innerWidth-0.5,y=e.clientY/innerHeight-0.5;tx=-x*18;ty=-y*18},{passive:true});
-    addEventListener('deviceorientation',e=>{ if(!e.gamma&&!e.beta) return; tx=(e.gamma||0)*0.6; ty=(e.beta||0)*0.4 },{passive:true});
+    // Copy CA
+    const TOKEN_CA = "0x786a3fe58996197077967d74a8af8f9aa4586827";
+    const copyBtn = document.getElementById('copyCA');
+    copyBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      navigator.clipboard.writeText(TOKEN_CA).then(()=>{
+        copyBtn.textContent = "Copied!";
+        setTimeout(()=> copyBtn.textContent = "Copy CA", 1200);
+      });
+    });
   </script>
 </body>
 </html>
